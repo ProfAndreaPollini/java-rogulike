@@ -1,6 +1,13 @@
 package org.ap.roguelike;
 
+import org.ap.roguelike.commands.Command;
+import org.ap.roguelike.entities.Entity;
+import org.ap.roguelike.entities.Hero;
+import org.ap.roguelike.entities.NPC;
+import org.ap.roguelike.utils.Vec2i;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class World {
 
@@ -9,22 +16,41 @@ public class World {
 
     private ArrayList<Integer> tileMap = new ArrayList<>();
     private ArrayList<Tile> tiles;
+    private ArrayList<NPC> entities = new ArrayList<>();
+    Hero hero;
 
+    private List<Command> commands = new ArrayList<>();
 
 
     public World(int width, int height) {
         this.width = width;
         this.height = height;
         tiles = new ArrayList<>();
+        entities = new ArrayList<>();
 
         for (int i = 0; i < width*height; i++) {
             tileMap.add(null);
         }
+        hero = new Hero();
 
+    }
+
+    public void addCommand(Command command) {
+        commands.add(command);
+    }
+
+    public void processCommands() {
+        for (Command command : commands) {
+            command.execute(this);
+        }
+        commands.clear();
     }
 
     public void addTile(Tile t) {
         tiles.add(t);
+    }
+    public void addNPC(NPC e) {
+        entities.add(e);
     }
 
 
@@ -54,6 +80,10 @@ public class World {
             if (spriteName != null) {
                 renderer.drawSprite(spriteName,x,y);
             }
+        }
+
+        for (Entity e : entities) {
+            e.draw(renderer);
         }
     }
 
@@ -98,4 +128,26 @@ public class World {
         return idx;
     }
 
+    public void update() {
+
+        for (NPC e : entities) {
+            e.update(this);
+        }
+    }
+
+    public Hero getHero() {
+        return hero;
+    }
+
+    public boolean isInBounds(int desiredX, int desiredY) {
+        return !(desiredX < 0 || desiredX >= width || desiredY < 0 || desiredY >= height);
+    }
+
+    public boolean isInBounds(Vec2i desideredPos) {
+        return isInBounds(desideredPos.getX(),desideredPos.getY());
+    }
+
+    public Tile getTile(Vec2i desideredPos) {
+        return getTile(desideredPos.getX(),desideredPos.getY());
+    }
 }

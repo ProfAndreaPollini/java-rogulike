@@ -1,0 +1,34 @@
+{
+  "sprites": [
+    {
+      "name": "hero",
+      "row": 0,
+      "col": 27
+    },
+    {
+      "name": "orc",
+      "row": 0,
+      "col": 32
+    },
+    {
+      "name":"ghost",
+      "row": 6,
+      "col": 27
+    },
+    {
+      "name":"floor",
+      "row": 0,
+      "col": 3
+    },
+    {
+      "name": "wall",
+      "row": 13,
+      "col": 0
+    },
+    {
+      "name": "stairs",
+      "row": 6,
+      "col": 2
+    }
+  ]
+}
